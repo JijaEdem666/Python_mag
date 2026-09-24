@@ -1,0 +1,13 @@
+Функция                   | Размер входа              | Время (сек)    
+convolve2d                | 100x100, ядро 3x3         | 0.012675
+convolve2d                | 100x100, ядро 5x5         | 0.021318
+convolve2d                | 200x200, ядро 3x3         | 0.037936
+convolve2d                | 200x200, ядро 5x5         | 0.091835
+convolve2d                | 300x300, ядро 3x3         | 0.098377
+convolve2d                | 300x300, ядро 5x5         | 0.214331
+multichannel_filter       | 50x50x3, ядро 3x3         | 0.009352
+multichannel_filter       | 100x100x3, ядро 3x3       | 0.035763
+multichannel_filter       | 150x150x3, ядро 3x3       | 0.082576
+convert_color_vector      | 10000 векторов            | 0.002763
+convert_color_vector      | 50000 векторов            | 0.013246
+convert_color_vector      | 100000 векторов           | 0.027206
