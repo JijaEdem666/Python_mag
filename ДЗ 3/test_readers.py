@@ -43,7 +43,7 @@ def read_template_by_extension(path):
     elif ext == '.wav':
         return wav_histogram_reader.read_wav_histogram(path)
     else:
-        raise ValueError(f'Unsupported file extension: {ext}')
+        raise ValueError(f'Неподдерживаемое расширение: {ext}')
 
 
 if __name__ == '__main__':
@@ -61,10 +61,16 @@ if __name__ == '__main__':
         res_image = equalization.equalize_histogram(image)
         image_writer.write_data(args.output, res_image)
     elif args.mode == 'gamma':
-        res_image = gamma_correction.gamma_correction(image, args.gamma)
+        try:
+            res_image = gamma_correction.gamma_correction(image, args.gamma)
+        except Exception as e:
+            print(f"Ошибка: {e}")
+            print("Значение gamma принудительно заменено на 1.0")
+            res_image = gamma_correction.gamma_correction(image, 1.0)
+
         image_writer.write_data(args.output, res_image)
     elif args.mode == 'wav':
         process_wav(args.path, args.output)
     else:
-        raise ValueError(f'Unknown mode: {args.mode}')
+        raise ValueError(f'Неизвестный режим (mode): {args.mode}')
 
