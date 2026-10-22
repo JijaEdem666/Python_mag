@@ -1,0 +1,19 @@
+=== Log started at 2026-10-22 20:11:11 ===
+[2026-10-22 20:11:11.423] [DEBUG] [App] [event_id=APP-001] [user=student] Инициализация модулей
+[2026-10-22 20:11:11.423] [INFO] [App] [event_id=APP-002] [user=student] Программа запущена
+[2026-10-22 20:11:11.423] [WARN] [Config] [event_id=APP-003] [user=student] Параметр не задан, берём значение по умолчанию | extra: param=max_families, default=100
+[2026-10-22 20:11:11.424] [ERROR] [Statistics] [event_id=STAT-500] [user=student] Деление на ноль при расчёте статистики | extra: operation=division, exception=ZeroDivisionError, exception_message=division by zero
+[2026-10-22 20:11:11.424] [FATAL] [FS] [event_id=FS-999] [user=student] Критическая ошибка файловой системы | extra: path=/data, errno=28
+[2026-10-22 20:11:11.424] [INFO] [City] [event_id=FamilyEvents.CITY_CREATED] [user=student] Создан город 'Москва' | extra: city=Москва
+[2026-10-22 20:11:11.426] [INFO] [City] [event_id=FamilyEvents.FAMILY_SETTLED] [user=student] Поселена семья 'Петров' | extra: surname=Петров, members=2
+[2026-10-22 20:11:11.426] [DEBUG] [Family] [event_id=FamilyEvents.MIDDLE_NAME_GEN] [user=student] Сгенерировано отчество 'Иванович' для 'Сергей' | extra: child=Сергей, strategy=PatronymicFromFather
+[2026-10-22 20:11:11.427] [INFO] [Family] [event_id=FamilyEvents.CHILD_ADDED] [user=student] Добавлен ребёнок: Сергей Иванович Петров | extra: family=Петров, child=Сергей, year=2010
+[2026-10-22 20:11:11.427] [DEBUG] [Family] [event_id=FamilyEvents.MIDDLE_NAME_GEN] [user=student] Сгенерировано отчество 'Аннаовна' для 'Ольга' | extra: child=Ольга, strategy=NewBranchStrategy
+[2026-10-22 20:11:11.428] [INFO] [Family] [event_id=FamilyEvents.CHILD_ADDED] [user=student] Добавлен ребёнок: Ольга Аннаовна Петров | extra: family=Петров, child=Ольга, year=2012
+[2026-10-22 20:11:11.428] [INFO] [Family] [event_id=FamilyEvents.CHILD_ADDED] [user=student] Добавлен ребёнок: Пётр Сергеевич Петров | extra: family=Петров, child=Пётр, year=2015
+[2026-10-22 20:11:11.428] [INFO] [City] [event_id=FamilyEvents.FAMILY_SETTLED] [user=student] Поселена семья 'Сидоров' | extra: surname=Сидоров, members=2
+[2026-10-22 20:11:11.429] [DEBUG] [Family] [event_id=FamilyEvents.MIDDLE_NAME_GEN] [user=student] Сгенерировано отчество 'Олегович' для 'Дмитрий' | extra: child=Дмитрий, strategy=PatronymicFromFather
+[2026-10-22 20:11:11.429] [INFO] [Family] [event_id=FamilyEvents.CHILD_ADDED] [user=student] Добавлен ребёнок: Дмитрий Олегович Сидоров | extra: family=Сидоров, child=Дмитрий, year=2008
+[2026-10-22 20:11:11.429] [DEBUG] [ImageConverter] [event_id=ImageEvents.CONVERT_START] [user=student] Начато преобразование Цветное->Монохром | extra: from=ColorImage, to=MonochromeImage
+[2026-10-22 20:11:11.431] [INFO] [ImageConverter] [event_id=ImageEvents.CONVERT_OK] [user=student] Преобразование завершено
+[2026-10-22 20:11:11.431] [ERROR] [ImageConverter] [event_id=ImageEvents.PALETTE_INVALID] [user=student] Некорректная палитра: длина 128 вместо 256 | extra: palette_size=128

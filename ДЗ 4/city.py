@@ -10,10 +10,8 @@ class Gender(Enum):
 
 
 class MiddleNameStrategy:
-    def make(self, child_first_name, child_gender,
-             father, mother,
-             family):
-        ...
+    def make(self, child_first_name, child_gender, father, mother, family):
+        raise NotImplementedError
 
 
 class PatronymicFromFather(MiddleNameStrategy):
@@ -39,10 +37,7 @@ class NewBranchStrategy(MiddleNameStrategy):
 
 
 class Family:
-    def __init__(self, father = None,
-                 mother = None,
-                 surname = None,
-                 city = None):
+    def __init__(self, father = None, mother = None, surname = None, city = None):
         self.father = father
         self.mother = mother
         self.children = []
