@@ -19,9 +19,9 @@ class FamilyEvents(Enum):
 
 
 class ImageEvents(Enum):
-    CONVERT_START   = "IMG-100"
-    CONVERT_OK      = "IMG-101"
-    CONVERT_ERROR   = "IMG-500"
+    CONVERT_START = "IMG-100"
+    CONVERT_OK = "IMG-101"
+    CONVERT_ERROR = "IMG-500"
     PALETTE_INVALID = "IMG-501"
 
 
@@ -29,12 +29,12 @@ class LogRecord:
     def __init__(self, timestamp, level, source, message,
                  event_id, user=None, extra=None):
         self.timestamp = timestamp
-        self.level     = level
-        self.source    = source
-        self.message   = message
-        self.event_id  = event_id
-        self.user      = user
-        self.extra     = extra if extra is not None else {}
+        self.level = level
+        self.source = source
+        self.message = message
+        self.event_id = event_id
+        self.user = user
+        self.extra = extra if extra is not None else {}
 
     def format(self):
         t  = time.localtime(self.timestamp)
@@ -333,7 +333,7 @@ def main():
                  event_id="FS-999", source="FS",
                  extra={"path": "/data", "errno": 28})
 
-    # ---- Город и семьи ----
+
     print("--- Работа города и семей ---")
     city = City("Москва", logger=logger)
 
@@ -362,7 +362,7 @@ def main():
     print("\nВсего семей: %d" % len(city.families))
     print("Всего жителей: %d" % len(city.people))
 
-    # ---- Имитация логов от ImageConverter ----
+
     logger.debug("Начато преобразование Цветное->Монохром",
                  event_id=ImageEvents.CONVERT_START,
                  source="ImageConverter",

@@ -3,6 +3,7 @@
 """
 import cv2
 import os
+import numpy as np
 
 class ObjectAnalysis(object):
     def template_method(self, image):
@@ -101,22 +102,61 @@ class FilteredAnalysis(ObjectAnalysis):
         self._proc = obj
 
     def template_method(self, image):
-        (_x, _y, _w, _h, _area) = self._proc.template_method(image)
-        x = []
-        y = []
-        w = []
-        h = []
-        area = []
+        result = self._proc.template_method(image)
+        if result is None:
+            return None
 
+        if len(result) == 5:
+            (_x, _y, _w, _h, _area) = result
+            hu_in = None
+        else:
+            (_x, _y, _w, _h, _area, hu_in) = result
+
+        x, y, w, h, area, hu_out = [], [], [], [], [], []
         for i in range(len(_area)):
-            if _area[i] > 10 and _area[i] < 2500:
-                x.append(_x[i])
-                y.append(_y[i])
-                w.append(_w[i])
-                h.append(_h[i])
+            if 10 < _area[i] < 2500:
+                x.append(_x[i]); y.append(_y[i])
+                w.append(_w[i]); h.append(_h[i])
                 area.append(_area[i])
+                if hu_in is not None:
+                    hu_out.append(hu_in[i])
 
-        return (x,y,w,h,area)
+        if hu_in is not None:
+            return (x, y, w, h, area, hu_out)
+        return (x, y, w, h, area)
+
+class HuMomentsAnalysis(ObjectAnalysis):
+
+    def __init__(self, obj):
+        self._proc = obj
+
+    def template_method(self, image):
+        filtered = self._proc.noise_filtering(image)
+        seg_data = self._proc.segmentation(filtered)
+        if seg_data is None:
+            return None
+
+        (seg_image, output) = seg_data
+        (numLabels, labels, stats, centroids) = output
+
+        x, y, w, h, area, hu = [], [], [], [], [], []
+        for i in range(1, numLabels):
+            x.append(int(stats[i, cv2.CC_STAT_LEFT]))
+            y.append(int(stats[i, cv2.CC_STAT_TOP]))
+            w.append(int(stats[i, cv2.CC_STAT_WIDTH]))
+            h.append(int(stats[i, cv2.CC_STAT_HEIGHT]))
+            area.append(int(stats[i, cv2.CC_STAT_AREA]))
+
+            # Hu-моменты берём из маски текущего объекта
+            mask = (labels == i).astype(np.uint8)
+            m = cv2.moments(mask)
+            hu.append(cv2.HuMoments(m).flatten())  # shape (7,)
+
+        return (x, y, w, h, area, hu)
+
+
+def log_hu(hu_vec):
+    return -np.sign(hu_vec) * np.log10(np.abs(hu_vec) + 1e-30)
 
 
 if __name__== '__main__':
@@ -149,3 +189,12 @@ if __name__== '__main__':
     (x, y, w, h, area) = filt_bin.template_method(cv2.imread(IMAGE_PATH_1, cv2.IMREAD_GRAYSCALE))
     for i in range(len(area)):
             print([x[i], y[i], w[i],h[i],area[i]])
+
+    proc1 = HuMomentsAnalysis(BinaryImage())
+    (x, y, w, h, area, hu) = proc1.template_method(cv2.imread(IMAGE_PATH_2, cv2.IMREAD_GRAYSCALE))
+    for i in range(len(area)):
+        print(f"obj {i}: area={area[i]}, hu[0]={hu[i][0]:.3e}")
+
+    # Hu + фильтр по площади (FilteredAnalysis снаружи)
+    proc2 = FilteredAnalysis(HuMomentsAnalysis(BinaryImage()))
+    (x, y, w, h, area, hu) = proc2.template_method(cv2.imread(IMAGE_PATH_2, cv2.IMREAD_GRAYSCALE))
