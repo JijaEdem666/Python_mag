@@ -2,6 +2,7 @@ import copy
 
 import practice_7_oop_patterns.decoders.decoder
 import practice_7_oop_patterns.encoders.encoder
+import re
 
 import os
 
@@ -14,7 +15,8 @@ class Hist:
 
     @classmethod
     def read(cls, file_path):
-        ext = file_path.rsplit('.', 1)[-1]
+        match = re.search(r'\.([^.]+)$', file_path)
+        ext = match.group(1).lower()
         if ext == 'bin':
             decoder = practice_7_oop_patterns.decoders.decoder.BinHistDecoder
         elif ext == 'txt':
